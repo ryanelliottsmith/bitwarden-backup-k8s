@@ -5,9 +5,6 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
   
 jobs:
   build:
@@ -29,5 +26,5 @@ jobs:
       with:
         context: .
         push: true
-        tags: latest
-        labels: ryanelliottsmith/bitwarden-cli
+        tags: ghcr.io/ryanelliottsmith/bitwarden-cli
+        labels: latest

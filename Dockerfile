@@ -1,6 +1,5 @@
-FROM alpine:latest as build
-RUN apk --no-cache add curl
-RUN curl -Lo bw-linux.zip https://vault.bitwarden.com/download/\?app\=cli\&platform\=linux && unzip bw-linux.zip && chmod +x ./bw
+FROM node:18-alpine
 
-FROM gcr.io/distroless/static-debian11
-COPY --from=build /bw /usr/local/bin/
+RUN npm install -g @bitwarden/cli
+
+ENTRYPOINT [ "/usr/local/bin/bw" ]

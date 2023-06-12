@@ -1,0 +1,32 @@
+#!/usr/bin/expect -f
+
+set file_path "/vault/secrets/bitwarden-auth.txt"
+set timeout 30
+
+set file [open $file_path r]
+while {[gets $file line] != -1} {
+    set key [lindex [split $line "="] 0]
+    set value [lindex [split $line "="] 1]
+    switch $key {
+        "BW_CLIENTID" {
+            set env(BW_CLIENTID) $value
+        }
+        "BW_CLIENTSECRET" {
+            set env(BW_CLIENTSECRET) $value
+        }
+        "MASTERPASS" {
+            set password $value
+        }
+        default {
+            # Ignore any other lines in the file
+            continue
+        }
+    }
+}
+close $file
+spawn bw login --apikey 
+expect eof
+spawn bw export --format csv
+expect "Master password"
+send -- "$password\r"
+interact

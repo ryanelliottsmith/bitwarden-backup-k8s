@@ -1,5 +1,6 @@
 FROM node:18-alpine
 
-RUN npm install -g @bitwarden/cli
+RUN apk add expect && npm install -g @bitwarden/cli
 
+COPY ./scripts /scripts
 ENTRYPOINT [ "/usr/local/bin/bw" ]

@@ -2,6 +2,5 @@
 
 Alpine docker image for bitwarden client, built weekly.
 
-# Usage
+Deployed as a CronJob on k8s, with apikey clientID, clientSecret and master password exposed from Vault.
 
-`docker pull ghcr.io/ryanelliottsmith/bitwarden-cli:latest`

@@ -24,8 +24,19 @@ while {[gets $file line] != -1} {
     }
 }
 close $file
-spawn bw login --apikey 
-expect eof
+
+# Check authentication status before logging in
+spawn bw status
+expect {
+    "unauthenticated" {
+        spawn bw login --apikey 
+        expect eof
+    }
+    default {
+        # The session is already authenticated, continue with export
+    }
+}
+
 spawn bw export --format csv
 expect "Master password"
 send -- "$password\r"
